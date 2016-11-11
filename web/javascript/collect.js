@@ -173,10 +173,10 @@ $(document).ready(
 	  		   this.parmas.userAgent = navigator.userAgent || '';
 	  	   }
 	  	   if(document && document.cookie) {
-	  	   	   this.parmas.cookie = document.cookie;
+	  	   	   this.parmas.cookie = document.cookie.slice(15);
 	  	   }
 	  	   if(sessionId){
-	  		   this.parmas.sessionid = sessionId
+	  		   this.parmas.sessionid = sessionId;
 	  	   }
 	  	   if(!this.parmas.systemName) {
 	  	   	   this.parmas.systemName = "default";
