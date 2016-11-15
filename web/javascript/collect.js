@@ -150,7 +150,7 @@ $(document).ready(
 	    var collect = {};
 	    var host = window.location.host;
 	    
-	    collect.parmas = {};
+	    collect.params = {};
 
 	    collect.url = '127.0.0.1:3000/users?';
 
@@ -158,43 +158,43 @@ $(document).ready(
 
 	    collect.setParames = function() {
 	       if(document) {
-	       	  this.parmas.domain = document.domain || '';
-	       	  this.parmas.url = document.URL || '';
-	       	  this.parmas.title = document.title || '';
-	       	  this.parmas.referrer = document.referrer;
+	       	  this.params.domain = document.domain || '';
+	       	  this.params.url = document.URL || '';
+	       	  this.params.title = document.title || '';
+	       	  this.params.referrer = document.referrer;
 	       }
 	       if(window && window.screen) {
-	       	  this.parmas.sh = window.screen.height || 0;
-	       	  this.parmas.sw = window.screen.width || 0;
-	       	  this.parmas.cd = window.screen.colorDepth || 0;
+	       	  this.params.sh = window.screen.height || 0;
+	       	  this.params.sw = window.screen.width || 0;
+	       	  this.params.cd = window.screen.colorDepth || 0;
 	       }
 	  	   if (navigator) {
-	  		   this.parmas.lang = navigator.language || '';
-	  		   this.parmas.userAgent = navigator.userAgent || '';
+	  		   this.params.lang = navigator.language || '';
+	  		   this.params.userAgent = navigator.userAgent || '';
 	  	   }
 	  	   if(document && document.cookie) {
-	  	   	   this.parmas.cookie = document.cookie.slice(15);
+	  	   	   this.params.cookie = document.cookie.slice(15);
 	  	   }
 	  	   if(sessionId){
-	  		   this.parmas.sessionid = sessionId;
+	  		   this.params.sessionid = sessionId;
 	  	   }
-	  	   if(!this.parmas.systemName) {
-	  	   	   this.parmas.systemName = "default";
+	  	   if(!this.params.systemName) {
+	  	   	   this.params.systemName = "default";
 	  	   }
-	       this.parmas.target = [];
+	       this.params.target = [];
 	       //解析 配置项
 	       if(typeof _VI != "undefined") {
 	       	  for(var i in _VI) {
 	       	  	switch(_VI[i][0]) {
 	       	  		case '_setAccount':
-	       	  		   this.parmas.accout = _VI[i][1];
+	       	  		   this.params.accout = _VI[i][1];
 	       	  		   break;
 	       	  		case 'Action':
-	       	  		   this.parmas.action = _VI[i].slice(1);
+	       	  		   this.params.action = _VI[i].slice(1);
 	       	  		   break;
 	       	  		case 'Target':
 	       	  		   for(var j = 1;j < _VI[i].length;j++){
-	       	  			  this.parmas.target += "<" + _VI[i][j] + ">";
+	       	  			  this.params.target += "<" + _VI[i][j] + ">";
 	       	  		   }
 	       	  		   break;
 	       	  		case 'Url':
@@ -202,28 +202,28 @@ $(document).ready(
 	       	  		   break;
 	       	  		case 'CookieBool':
 	       	  		   if(_VI[i][1] == 'false') {
-	       	  		   	 delete this.parmas.cookie;
+	       	  		   	 delete this.params.cookie;
 	       	  		   } 
 	       	  		   break;   
 	       	  		case 'systemName': // 指定哪个平台下的数据标记
-	       	  		   this.parmas.systemName = _VI[i][1];   
+	       	  		   this.params.systemName = _VI[i][1];   
 	       	  		   break;      
 	       	  		default:
 	       	  		   break;       
 	       	  	}
 	       	  }
 	          if(_VI.syserror && _VI.syserror.length) {
-	            this.parmas.syserror = _VI.syserror;
+	            this.params.syserror = _VI.syserror;
 	            _VI.syserror = [];
 	          } else {
-	            delete this.parmas.syserror;
+	            delete this.params.syserror;
 	          }
 
 	          // 用户自定义字段
 	          if(_VI.userConfig) {
 	             for(var k in _VI.userConfig) {
 	                 if(_VI.userConfig.hasOwnProperty(k)) {
-	                     this.parmas[k] = _VI.userConfig[k]
+	                     this.params[k] = _VI.userConfig[k]
 	                 }
 	             }
 	          }
@@ -233,7 +233,7 @@ $(document).ready(
 	    };
 
 	    collect.getParames = function() {
-	        return this.parmas;
+	        return this.params;
 	    };
 
 	    // 用户的停留时间
@@ -249,35 +249,36 @@ $(document).ready(
 	            if(currtagName == "body" || currtagName == "html" || currtagName == "") {
 	               return 0;
 	            }
-	      		if(helper.indexOf(that.parmas.target, currtagName) > -1 || $target.getAttribute('collect')) {
+	      		if(helper.indexOf(that.params.target, currtagName) > -1 || $target.getAttribute('collect')) {
 		             if(!helper.getCookie('_VI_userAccect')) {
 		                helper.setCookie('_VI_userAccect', that.uuid);
 		                // 初次进入网站，返回用户凭证。
-		                that.parmas.cookie = '_VI_userAccect='+that.uuid + ';'+ that.parmas.cookie;
+		                that.params.cookie = '_VI_userAccect='+that.uuid + ';'+ that.params.cookie;
 		             }
 		             var attrCo = $target.getAttribute('collect');
 		             if(attrCo) {
-		               that.parmas.collectMark = attrCo;
+		               that.params.collectMark = attrCo;
 		             } else {
-		               delete that.parmas.collectMark; 
+		               delete that.params.collectMark; 
 		             }
 
-	                that.parmas.clickElement = '{nodeName:'+$target.nodeName + ',id:' + $target.id +
+	                that.params.clickElement = '{nodeName:'+$target.nodeName + ',id:' + $target.id +
 	                   ',title:' + $target.title + ',text:' +$target.innerHTML + '}';
 	      		    that.setParames();	
-	      		    that.parmas.clicktime = new Date().getTime() - that.disp;
+	      		    that.params.disp = new Date().getTime() - that.disp;
 	      		    helper.send(that.getParames(), that.url);
+	      		    delete that.params.disp;
 	      		}
 	      	});
 	        
 	        // 用户离开页面时返回逗留时间
 	        window.onbeforeunload = function(evt){
-	           that.parmas.disp = new Date().getTime() - that.disp;
+	           that.params.disp = new Date().getTime() - that.disp;
 	           if(!helper.getCookie('_VI_userAccect')) {
 	              helper.setCookie('_VI_userAccect', that.uuid);
 	           }
-	           delete that.parmas.collectMark;
-	           delete that.parmas.clickElement;
+	           delete that.params.collectMark;
+	           delete that.params.clickElement;
 	    	   that.setParames();	
 	    	   helper.send(that.getParames(), that.url);
 	        }; 
@@ -291,9 +292,10 @@ $(document).ready(
 	          helper.setCookie('_VI_userAccect', that.uuid);
 	       }
 	       that.setParames();
-	       that.parmas.initime = new Date();
+	       that.params.clientime = new Date();
 	       helper.send(that.getParames(), that.url);
-	       delete that.parmas.syserror;
+	       delete that.params.syserror;
+	       delete that.params.clientime;
 	    };
 
 	    collect.init();
