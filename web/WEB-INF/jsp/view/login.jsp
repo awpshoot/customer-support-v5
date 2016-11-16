@@ -39,10 +39,10 @@
     	_VI.push(['Url','http://127.0.0.1:8082/support/visitinfo']);
 
     	// 此处可以记录系统
-    	_VI.push(['systemName','信息收集']);
+    	_VI.push(['systemname','知识库系统']);
 
     	//此处可以记录账户
-    	_VI.push(['_setAccount', '奥巴马']);
+    	_VI.push(['_setAccount', '奥巴马openid']);
 
     	//将要记录的标签元素类型名称写在Target后面，在另外需要记录点击的标签元素中加入collect属性
     	_VI.push(['Target','a','div','button']);

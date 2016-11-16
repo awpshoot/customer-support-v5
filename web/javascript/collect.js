@@ -18,6 +18,30 @@
 //	} catch (e) { }; 
 //};  
 
+
+// 对Date的扩展，将 Date 转化为指定格式的String
+// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
+// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
+// 例子： 
+// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
+// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
+Date.prototype.Format = function (fmt) { //author: meizz 
+    var o = {
+        "M+": this.getMonth() + 1, //月份 
+        "d+": this.getDate(), //日 
+        "H+": this.getHours(), //小时 
+        "m+": this.getMinutes(), //分 
+        "s+": this.getSeconds(), //秒 
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+        "s": this.getMilliseconds() //毫秒 
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+
+
 $(document).ready(
 
 	function(windows) {
@@ -170,7 +194,7 @@ $(document).ready(
 	       }
 	  	   if (navigator) {
 	  		   this.params.lang = navigator.language || '';
-	  		   this.params.userAgent = navigator.userAgent || '';
+	  		   this.params.useragent = navigator.userAgent || '';
 	  	   }
 	  	   if(document && document.cookie) {
 	  	   	   this.params.cookie = document.cookie.slice(15);
@@ -178,8 +202,8 @@ $(document).ready(
 	  	   if(sessionId){
 	  		   this.params.sessionid = sessionId;
 	  	   }
-	  	   if(!this.params.systemName) {
-	  	   	   this.params.systemName = "default";
+	  	   if(!this.params.systemname) {
+	  	   	   this.params.systemname = "default";
 	  	   }
 	       this.params.target = [];
 	       //解析 配置项
@@ -187,7 +211,7 @@ $(document).ready(
 	       	  for(var i in _VI) {
 	       	  	switch(_VI[i][0]) {
 	       	  		case '_setAccount':
-	       	  		   this.params.accout = _VI[i][1];
+	       	  		   this.params.account = _VI[i][1];
 	       	  		   break;
 	       	  		case 'Action':
 	       	  		   this.params.action = _VI[i].slice(1);
@@ -205,8 +229,8 @@ $(document).ready(
 	       	  		   	 delete this.params.cookie;
 	       	  		   } 
 	       	  		   break;   
-	       	  		case 'systemName': // 指定哪个平台下的数据标记
-	       	  		   this.params.systemName = _VI[i][1];   
+	       	  		case 'systemname': // 指定哪个平台下的数据标记
+	       	  		   this.params.systemname = _VI[i][1];   
 	       	  		   break;      
 	       	  		default:
 	       	  		   break;       
@@ -292,7 +316,7 @@ $(document).ready(
 	          helper.setCookie('_VI_userAccect', that.uuid);
 	       }
 	       that.setParames();
-	       that.params.clientime = new Date();
+	       that.params.clientime = new Date().Format("yyyy-MM-dd HH:mm:ss");
 	       helper.send(that.getParames(), that.url);
 	       delete that.params.syserror;
 	       delete that.params.clientime;
@@ -302,3 +326,5 @@ $(document).ready(
 
 	}
 );
+
+
