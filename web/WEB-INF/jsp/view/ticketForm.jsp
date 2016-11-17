@@ -23,7 +23,8 @@
     	var sessionId = "${pageContext.session.id}";
     	var _VI = _VI || [];
     	//后台VisitInfo，收集的地址平台 host，默认不需要配置
-    	_VI.push(['Url','http://127.0.0.1:8082/support/visitinfo']);
+    	_VI.push(['Url','<%=request.getScheme() + "://"  + request.getServerName() 
+    	+ ":" + request.getServerPort()  + "/" + request.getContextPath()%>/visitinfo']);
 
     	// 此处可以记录系统
     	_VI.push(['systemname','知识库系统']);
