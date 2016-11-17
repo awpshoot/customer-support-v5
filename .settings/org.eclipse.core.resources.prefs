@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+encoding//source/production/java=UTF-8
+encoding//source/production/resources=UTF-8
+encoding//source/test/java/unit=UTF-8
+encoding//web/WEB-INF/jsp/view/listTickets.jsp=UTF-8
+encoding//web/WEB-INF/jsp/view/login.jsp=UTF-8
+encoding//web/WEB-INF/jsp/view/sessions.jsp=UTF-8
+encoding//web/WEB-INF/jsp/view/ticketForm.jsp=UTF-8
+encoding//web/WEB-INF/jsp/view/viewTicket.jsp=UTF-8
+encoding//web/javascript/collect.js=UTF-8
+encoding//web/javascript/jquery.js=UTF-8
+encoding/<project>=UTF-8
