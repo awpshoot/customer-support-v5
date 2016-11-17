@@ -150,7 +150,6 @@ $(document).ready(
 	    helper.send = function(obj, url) {
 			$.ajax({
 			    type: "post",
-			    dataType: "",
 			    url: url,
 			    data: obj,
 			    success: function (data) {
