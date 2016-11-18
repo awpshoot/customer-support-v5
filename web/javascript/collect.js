@@ -306,7 +306,7 @@ $(document).ready(
 	    	   helper.send(that.getParames(), that.url);
 	        }; 
 	    };
-
+	    //进入页面执行的方法
 	    collect.init = function() {
 	       var that = this;
 	       that.timer();  

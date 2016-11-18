@@ -41,6 +41,9 @@ public class VisitInfoServlet extends HttpServlet {
 
 	/**
 	 * @see Servlet#init(ServletConfig)
+	 * init方法在servlet初始化时设置一个定时器，从启动后每隔五秒（可在程序中改）
+	 * 将全局变量visitDatabase中的数据插入数据库中，
+	 * 然后清空visitDatabase变量
 	 */
 	public void init(ServletConfig config) throws ServletException {
 		Timer timer = new Timer();
@@ -85,7 +88,7 @@ public class VisitInfoServlet extends HttpServlet {
 				}
 				visitDatabase.clear();
 			}
-		}, 1000*5l, 1000*5l);
+		}, 1000*5l, 1000*5l);//此处设置几秒，10分钟将5l改为600l。结尾字母l。
 	}
 
 	/**
@@ -97,10 +100,12 @@ public class VisitInfoServlet extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
+	 * 此处接收每个进入，离开，点击事件并循环填充空值，存入visitDatabase全局变量中。
 	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Map<String,String[]> parameterMap = new HashMap(request.getParameterMap());
+		//判断事件
 		if(parameterMap.get("clickElement") instanceof String[]&&parameterMap.get("clickElement").length > 0){
 			parameterMap.put("operateid", new String[]{"2"});
 			parameterMap.put("operatetype", new String[]{"点击"});
@@ -111,6 +116,7 @@ public class VisitInfoServlet extends HttpServlet {
 			parameterMap.put("operateid", new String[]{"0"});
 			parameterMap.put("operatetype", new String[]{"离开"});
 		}
+		//循环输出可注释
 		for(Map.Entry<String, String[]> entry:parameterMap.entrySet()){
 			String values = "";
 			for(int i = 0;i < entry.getValue().length;i++){
@@ -124,7 +130,7 @@ public class VisitInfoServlet extends HttpServlet {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		visitInfoMap.put("servertime", sdf.format(date));
 		visitInfoMap.put("clientip", getIpAddr(request));
-		
+		//填充空值
 		if(parameterMap.get("sessionid") instanceof String[]&&parameterMap.get("sessionid").length > 0){
 			visitInfoMap.put("sessionid", parameterMap.get("sessionid")[0]);
 		}else{
@@ -237,7 +243,11 @@ public class VisitInfoServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("进入dopost");
 	}
-
+	/**
+	 * 网上找的获取真实ip的方法
+	 * @param request
+	 * @return
+	 */
     private final static String getIpAddr(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {

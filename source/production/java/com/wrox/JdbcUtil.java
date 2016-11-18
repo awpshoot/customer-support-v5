@@ -87,7 +87,7 @@ public final class JdbcUtil {
             }
         }
     }
-    
+    //主方法测试用
     public static void main(String[] args){
     	Connection tempCon = getConnectionForMySQL();
     	System.out.println(tempCon);
